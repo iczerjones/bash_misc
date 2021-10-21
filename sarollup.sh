@@ -21,7 +21,7 @@ fi
 
 # set todays day of the month as a reference then note the
 # highest recorded value
-now=`date | awk '{print $2}'`
+now=`date +%d`
 last=$(ls ${location}/sar* | wc -l)
 
 # build an array ordered by day of the month using today
