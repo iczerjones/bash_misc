@@ -40,5 +40,8 @@ target="sarfile_${descriptor}"
 
 # append each day's logs in chronological order
 for part in ${sars[@]}; do
+        if [ ${#part} -eq 1 ]; then
+                part="0${part}"
+        fi
         cat ${location}/sar${part} >> $target
 done
