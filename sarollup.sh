@@ -12,7 +12,8 @@ if [ $# -eq 0 ]; then
         if [ `ls /var/log/sa/sar* | wc -l` -gt 2 ]; then
                 location="/var/log/sa"
         else
-                echo "usage: ./sarollup.sh [PATH] "; sleep 1; exit 1
+                echo "usage: ./sarollup.sh [PATH] "; sleep 1 
+                exit 1
         fi
 fi
 
