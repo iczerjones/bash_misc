@@ -35,6 +35,9 @@ fi
 # set todays day of the month as a reference then note the
 # highest recorded value
 now=`date +%d`
+if [ `ls ${location}/sar* | grep converted | wc -l` -gt 0 ]; then
+	rm -f ${location}/*converted; sync
+fi
 last=$(ls ${location}/sar* | wc -l)
 
 # build an array ordered by day of the month using today
@@ -76,8 +79,8 @@ smartctl -a /dev/nvme0n1 > ${tdir}/nvme_info-${descriptor}
 dmidecode > ${tdir}/dmi_info-${descriptor}
 
 # gather dmesg and scale logs
-tar czf ${tdir}/messages-${descriptor} /var/log/messages*
-tar czf ${tdir}/scalelogs-${descriptor}.tar.gz /var/log/scale/*
+tar czf ${tdir}/messages-${descriptor} /var/log/messages* &>/dev/null
+tar czf ${tdir}/scalelogs-${descriptor}.tar.gz /var/log/scale/* &>/dev/null
 
 # create single bundle and clean up
 sync; tar czf supportbundle-${descriptor} ${tdir}/*
