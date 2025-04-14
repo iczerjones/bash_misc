@@ -5,6 +5,12 @@
 #
 # cnietzold@scalecomputing.com
 
+# confirm user / permissions
+if [[ $EUID -ne 0 ]]; then
+	echo ""
+	echo "!!! This must be run as root (or with 'sudo') " 1>&2
+	echo ""; exit 1
+fi
 
 # set finished file suffix
 descriptor=`hostname`
