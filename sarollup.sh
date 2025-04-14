@@ -18,7 +18,7 @@ descriptor=`hostname`
 # cleanup all arrays and temp directory
 cleanup(){
 	sync; rm -rf ${tdir}/*; rm -rf ${tdir}
-	unset sars; unset last; unset part; sync
+	unset sars; unset last; unset part; unset disks; sync
 }
 
 # take argument for sar file location, or check for common
@@ -79,7 +79,10 @@ echo "-------------------------" >> ${tdir}/eth_info-${descriptor}
 ethtool lan0 >> ${tdir}/eth_info-${descriptor}
 
 # gather smartctl drive info
-smartctl -a /dev/nvme0n1 > ${tdir}/nvme_info-${descriptor}
+disks=($(lsblk -l | grep disk | awk '{print $1}'))
+for disk in "${disks[@]}"; do
+	smartctl -a /dev/$disk > ${tdir}/${disk}_info-${descriptor}
+done
 
 # gather dmidecode info
 dmidecode > ${tdir}/dmi_info-${descriptor}
